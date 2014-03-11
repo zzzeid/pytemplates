@@ -39,21 +39,25 @@ Tags
 A tag is the first entry in an element. Attributes are passed in as tuples, or written in short form. Content is the second entry in the element. ::
 
     # Long form
-    ({'input', ('value', 'This is a disabled input field'), ('disabled',)})
+    # Putting your element in a tuple will create a html element with no closing tag
+    ({'input', ('value', 'This is a disabled input field'), ('disabled',)},)
 
+    # Output: <input value="This is a disabled input field" disabled>
+
+    # Putting your element in a list will create an html element with a closing tag
     [{'ul', ('class', 'unstyled'), ('id', 'my_list')},
-        [{'li'}, 'First'],
-        [{'li'}, 'Second'],
-        [{'li'}, 'Third'],
+        [{'li'}, 'One'],
+        [{'li'}, 'Two'],
     ]
 
+    # Output: <ul class="unstyled" id="my_list"><li>One</li><li>Two</li></ul>
+
     # Short form
-    ({'input[value="This is a disabled input field"]:disabled'})
+    ({'input[value="This is a disabled input field"]:disabled'},)
 
     [{'ul#my_list.unstyled'},
-        [{'li'}, 'First'],
-        [{'li'}, 'Second'],
-        [{'li'}, 'Third'],
+        [{'li'}, 'One'],
+        [{'li'}, 'Two'],
     ]
 
 Template
@@ -135,6 +139,19 @@ You can include any external file with an include statement. This will render th
         def template(self, c, b, m):
             template = [{'div'}, self.include('some_external_file.html')]
             return template
+
+
+Rendering the Template
+++++++++++++++++++++++
+To render your template, create an instance of the template and call its render() function. ::
+
+    template = MyTemplate()
+
+    # This will output the rendered HTML template
+    template.render()
+
+    # You can pass the context to the render function as a dictionary:
+    template.render({'some_variable': 1234})
 
 
 Full Example
